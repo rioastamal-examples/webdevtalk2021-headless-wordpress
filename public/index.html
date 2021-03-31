@@ -62,7 +62,7 @@ article {
           <div v-if="currentView !== 'single'">
             <h3><a href="#" v-html="post.title.rendered" v-on:click="fetchPosts({postId: post.id, queryString: '_embed', from: 'single'}, $event)"></a></h3>
             <img class="float-left mr-8" v-bind:src="parseFeaturedMedia(post, 'thumbnail')">
-            <p v-html="post.excerpt.rendered"></p>
+            <p v-html="post.excerpt.rendered">[[ SUMMARY ]]</p>
           </div>
 
           <div v-if="currentView === 'single'">
@@ -72,7 +72,7 @@ article {
               <span class="post-author"> by <b>{{ post.author ? post._embedded.author[0].name : 'Unknown' }}</b></span>
             </div>
             <img v-if="post.hide_featured_image !== true" class="float-left mr-8 mb-8" v-bind:src="parseFeaturedMedia(post, 'full')">
-            <div v-html="post.content.rendered"></div>
+            <div v-html="post.content.rendered">[[ CONTENT ]]</div>
           </div>
         </article>
       </div>
@@ -90,7 +90,7 @@ article {
         <div v-if="currentView !== 'home'">
           <h4>Recent Posts</h4>
           <article class="clearfix" v-if="posts.length > 0" v-for="(post, index) in recentPosts">
-            <a href="#" v-html="post.title.rendered" v-on:click="fetchPosts({postId: post.id, queryString: '_embed', from: 'single'}, $event)"></a>
+            <a href="#" v-html="post.title.rendered" v-on:click="fetchPosts({postId: post.id, queryString: '_embed', from: 'single'}, $event)">[[ Recent Post title ]]</a>
           </article>
         </div>
       </div>
@@ -116,6 +116,8 @@ var ajax = function(options) {
   http.send(options.data);
 };
 // ./ajax
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 var fnFetchHomePage = function(domEvt) {
   if (domEvt) {
@@ -258,7 +260,6 @@ var app = new Vue({
     fetchCategories: fnFetchCategories,
     displayPostDate: function(thePost) {
       var d = new Date(thePost.date);
-      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return (d.getDate() < 10 ? '0' + d.getDate() : d.getDate()) + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     },
     parseFeaturedMedia: function(thePost, imgSize) {
