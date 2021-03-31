@@ -29,6 +29,7 @@ article {
   display: block;
 }
 .overflow-x-hidden { overflow-x: hidden; }
+.red { color: #c60000; }
 </style>
 </head>
 <body>
@@ -46,10 +47,10 @@ article {
       <h1>Headless WordPress Demo using VueJS</h1>
 
       <div v-if="currentView !== 'home'" class="row mb-8">
-        <nav class="column" v-html="breadcrumb"></nav>
+        <nav class="column" v-html="breadcrumb">[[ BREADCRUMB NAV ]]</nav>
       </div>
 
-      <h4 v-if="forbidden === true">Rest API - Access Forbidden.</h4>
+      <h4 v-if="forbidden === true" class="red">Rest API - Access Forbidden.</h4>
       <h4 v-if="processing.posts === true">Loading articles...</h4>
     </header>
   </div>
