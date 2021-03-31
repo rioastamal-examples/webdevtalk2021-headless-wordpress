@@ -62,7 +62,7 @@ article {
           <div v-if="currentView !== 'single'">
             <h3><a href="#" v-html="post.title.rendered" v-on:click="fetchPosts({postId: post.id, queryString: '_embed', from: 'single'}, $event)"></a></h3>
             <img class="float-left mr-8" v-bind:src="parseFeaturedMedia(post, 'thumbnail')">
-            <p v-html="post.excerpt.rendered">[[ SUMMARY ]]</p>
+            <p v-html="post.excerpt.rendered">[[ EACH OF POST SUMMARY ]]</p>
           </div>
 
           <div v-if="currentView === 'single'">
@@ -72,7 +72,7 @@ article {
               <span class="post-author"> by <b>{{ post.author ? post._embedded.author[0].name : 'Unknown' }}</b></span>
             </div>
             <img v-if="post.hide_featured_image !== true" class="float-left mr-8 mb-8" v-bind:src="parseFeaturedMedia(post, 'full')">
-            <div v-html="post.content.rendered">[[ CONTENT ]]</div>
+            <div v-html="post.content.rendered">[[ POST CONTENT ]]</div>
           </div>
         </article>
       </div>
@@ -102,6 +102,15 @@ article {
   <footer></footer>
 </div>
 <script type="text/javascript">
+var app = null;
+window.addEventListener('DOMContentLoaded', function() {
+
+// Do not load application when this query string exists
+// Useful to show all elements before rendered by VueJS
+if (window.location.search.indexOf('novue') > -1) {
+    return;
+}
+
 var ajax = function(options) {
   var http = new XMLHttpRequest();
   http.addEventListener('load', options.onComplete);
@@ -231,7 +240,7 @@ var fnFetchCategories = function() {
 };
 // ./fnFetchCategories
 
-var app = new Vue({
+app = new Vue({
   el: '#app',
   data: {
     settings: {
@@ -283,6 +292,9 @@ var app = new Vue({
   }
   // ./mounted
 });
+
+});
+// ./DOMContentLoaded
 </script>
 </body>
 </html>
